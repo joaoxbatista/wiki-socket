@@ -1,65 +1,45 @@
 package server.controllers;
 
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.Object;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import server.Main;
 import server.models.Topic;
+import server.repository.TopicRepository;
+
+import com.sun.xml.internal.ws.util.StringUtils;
 
 public class TopicController {
 	
-	private ArrayList<Topic> topics;
-	
-	public ArrayList<Topic> filter(String comando) {
+	public void find(String field, String value) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException
+	{
 		
-		JSONParser jsonParser = new JSONParser(); //Instancia o conversor para JSON
-		JSONObject comandos; //Objeto JSON que armazena os comandos
+		String class_name = "server.models.Topic";
+		Class<?> tpClass = Class.forName(class_name);
+		Object tc = tpClass.newInstance();
+
+		String method_string = "set" + StringUtils.capitalize(field);
+		Method method = tc.getClass().getMethod(method_string, String.class);
+		method.invoke(tc, value);
 		
-		ArrayList<Topic> resultTopics = new ArrayList<Topic>(); //ArrayList para armazenar os tópicos resultantes
-
-		try {
-			comandos = (JSONObject) jsonParser.parse(comando); //Transforma a String em Objetos JSON
-
-			if (comandos.get("action").toString().equals("get")) {
-				
-				if (comandos.get("field").toString().equals("title")) {
-					for (Topic topic : this.topics) {
-						if (topic.getTitle().equals(
-								comandos.get("value").toString())) {
-							resultTopics.add(topic);
-						}
-					}
-
-				}
-
-				if (comandos.get("field").toString().equals("discipline")) {
-					for (Topic topic : Main.topics) {
-						if (topic.getDiscipline().getName()
-								.equals(comandos.get("value").toString())) {
-							resultTopics.add(topic);
-						}
-					}
-
-				}
-
-				if (comandos.get("field").toString().equals("area")) {
-
-					for (Topic topic : Main.topics) {
-						if (topic.getDiscipline().getName()
-								.equals(comandos.get("value").toString())) {
-							resultTopics.add(topic);
-						}
-					}
-
-				}
-			}
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return resultTopics;
+		Topic topic = (Topic) tc;
+		TopicRepository tr = new TopicRepository();
+		
+		System.out.println(tr.find(topic));
 	}
+	
+	public void delete(String value)
+	{
+		TopicRepository tr = new TopicRepository();
+		System.out.println(tr.remove(value));
+	}
+	
+	public void all()
+	{
+		TopicRepository tr = new TopicRepository();
+		System.out.println(tr.all());
+	}
+
 }
