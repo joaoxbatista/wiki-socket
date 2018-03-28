@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 import server.models.Area;
 import server.models.Discipline;
-import server.models.Topic;
-import server.repository.TopicRepository;
+import server.models.Concept;
+import server.repository.ConceptRepositoy;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -26,7 +26,7 @@ import org.json.simple.parser.ParseException;
 public class Main {
 
 	private static int number_client = 0;
-	private static ArrayList<Topic> topics = new ArrayList<Topic>();
+	private static ArrayList<Concept> topics = new ArrayList<Concept>();
 
 	public static void main(String args[]) {
 		Main.topics = Main.readTopics();
@@ -48,7 +48,7 @@ public class Main {
 			while (scanner.hasNextLine()) {
 				System.out.println(log("Cliente número " + number_client));
 				String json = scanner.nextLine();
-				ArrayList<Topic> topics = Main.filter(json);
+				ArrayList<Concept> topics = Main.filter(json);
 				client_out.writeObject(topics.toString());
 			}
 			scanner.close();
@@ -62,12 +62,12 @@ public class Main {
 
 	}
 	
-	public static ArrayList<Topic> filter(String comando) {
+	public static ArrayList<Concept> filter(String comando) {
 		
 		// TODO Abstrair a parte de filtragem para uma classe Controller ou algo do tipo
 		JSONParser jsonParser = new JSONParser();
 		JSONObject comandos;
-		ArrayList<Topic> resultTopics = new ArrayList<Topic>();
+		ArrayList<Concept> resultTopics = new ArrayList<Concept>();
 
 		try {
 			comandos = (JSONObject) jsonParser.parse(comando);
@@ -75,7 +75,7 @@ public class Main {
 			//TODO Alterar a action get para "find"
 			if (comandos.get("action").toString().equals("get")) {
 				if (comandos.get("field").toString().equals("title")) {
-					for (Topic topic : Main.topics) {
+					for (Concept topic : Main.topics) {
 						if (topic.getTitle().equals(
 								comandos.get("value").toString())) {
 							resultTopics.add(topic);
@@ -85,7 +85,7 @@ public class Main {
 				}
 
 				if (comandos.get("field").toString().equals("discipline")) {
-					for (Topic topic : Main.topics) {
+					for (Concept topic : Main.topics) {
 						if (topic.getDiscipline().getName()
 								.equals(comandos.get("value").toString())) {
 							resultTopics.add(topic);
@@ -96,7 +96,7 @@ public class Main {
 
 				if (comandos.get("field").toString().equals("area")) {
 
-					for (Topic topic : Main.topics) {
+					for (Concept topic : Main.topics) {
 						if (topic.getDiscipline().getName()
 								.equals(comandos.get("value").toString())) {
 							resultTopics.add(topic);
@@ -112,13 +112,13 @@ public class Main {
 		return resultTopics;
 	}
 
-	public static ArrayList<Topic> readTopics() {
-		TopicRepository tr = new TopicRepository();
+	public static ArrayList<Concept> readTopics() {
+		ConceptRepositoy tr = new ConceptRepositoy();
 		if (tr.all().size() < 1) {
 			Main.createTopics();
 		}
 
-		ArrayList<Topic> topics = tr.all();
+		ArrayList<Concept> topics = tr.all();
 		return topics;
 	}
 
@@ -146,23 +146,23 @@ public class Main {
 				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis nunc sem, eget ultrices nisl tristique eget. Vestibulum vestibulum pellentesque neque, ut scelerisque libero dictum eget. Sed libero sapien, elementum ut mollis ac, iaculis et quam. Cras maximus nibh diam, id aliquet est interdum non. Nam a odio eu ipsum imperdiet fermentum. Vestibulum sed dolor in purus tempor tempor. Donec massa neque, lobortis tincidunt nisi ut, accumsan lobortis purus. Fusce vel tellus imperdiet, elementum justo eget, sodales purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce tellus libero, bibendum non ligula sit amet, pharetra auctor nibh. Duis sem velit, mollis non purus eu, laoreet rhoncus eros. Sed pretium euismod sodales. Praesent ullamcorper dui in dignissim vulputate.",
 				a3);
 
-		Topic t1 = new Topic(
+		Concept t1 = new Concept(
 				"Coordenadas Homogeneas",
 				d1,
 				"Morbi tincidunt, lectus id molestie hendrerit, ante risus pharetra quam, at ultricies felis ex eu est. Nunc convallis nibh libero, eu euismod tortor sagittis in. Praesent id ex ac nisl semper luctus in id tellus. Cras dignissim ante ipsum. Fusce sit amet turpis ut diam consequat sagittis sed quis mi. Mauris ullamcorper dolor eget malesuada mollis. Sed eu facilisis ante. Praesent enim nisi, auctor nec sodales eu, posuere non magna. Nulla vel augue sed lorem viverra hendrerit. Suspendisse leo tortor, efficitur vitae mi in, euismod pharetra diam. Morbi gravida massa quis sapien eleifend elementum. In nec elit laoreet, tincidunt felis nec, pellentesque ipsum. Aenean feugiat auctor justo. In vel ornare justo. Maecenas sed facilisis eros. Integer consequat sit amet urna sed placerat.",
 				"T1");
-		Topic t2 = new Topic(
+		Concept t2 = new Concept(
 				"Transformações Geométricas",
 				d2,
 				"Morbi tincidunt, lectus id molestie hendrerit, ante risus pharetra quam, at ultricies felis ex eu est. Nunc convallis nibh libero, eu euismod tortor sagittis in. Praesent id ex ac nisl semper luctus in id tellus. Cras dignissim ante ipsum. Fusce sit amet turpis ut diam consequat sagittis sed quis mi. Mauris ullamcorper dolor eget malesuada mollis. Sed eu facilisis ante. Praesent enim nisi, auctor nec sodales eu, posuere non magna. Nulla vel augue sed lorem viverra hendrerit. Suspendisse leo tortor, efficitur vitae mi in, euismod pharetra diam. Morbi gravida massa quis sapien eleifend elementum. In nec elit laoreet, tincidunt felis nec, pellentesque ipsum. Aenean feugiat auctor justo. In vel ornare justo. Maecenas sed facilisis eros. Integer consequat sit amet urna sed placerat.",
 				"T2");
-		Topic t3 = new Topic(
+		Concept t3 = new Concept(
 				"Plantas Trópicais",
 				d3,
 				"Morbi tincidunt, lectus id molestie hendrerit, ante risus pharetra quam, at ultricies felis ex eu est. Nunc convallis nibh libero, eu euismod tortor sagittis in. Praesent id ex ac nisl semper luctus in id tellus. Cras dignissim ante ipsum. Fusce sit amet turpis ut diam consequat sagittis sed quis mi. Mauris ullamcorper dolor eget malesuada mollis. Sed eu facilisis ante. Praesent enim nisi, auctor nec sodales eu, posuere non magna. Nulla vel augue sed lorem viverra hendrerit. Suspendisse leo tortor, efficitur vitae mi in, euismod pharetra diam. Morbi gravida massa quis sapien eleifend elementum. In nec elit laoreet, tincidunt felis nec, pellentesque ipsum. Aenean feugiat auctor justo. In vel ornare justo. Maecenas sed facilisis eros. Integer consequat sit amet urna sed placerat.",
 				"T2");
 
-		TopicRepository tr = new TopicRepository();
+		ConceptRepositoy tr = new ConceptRepositoy();
 
 		tr.store(t1);
 		tr.store(t2);
