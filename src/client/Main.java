@@ -22,7 +22,7 @@ public class Main {
 			PrintStream saida = new PrintStream(server.getOutputStream());
 			Scanner scanner = new Scanner(System.in);
 			ObjectInputStream server_out = new ObjectInputStream(server.getInputStream());
-			System.out.println(log("Cliente conectado com sucesso!\n Servidor aguardando requisições:\n"));
+			System.out.println(log("Cliente conectado com sucesso! Servidor aguardando requisições:"));
 			while(scanner.hasNextLine())
 			{
 				saida.println(scanner.nextLine());
@@ -33,6 +33,8 @@ public class Main {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
+				
+				System.out.println(log("Cliente conectado com sucesso! Servidor aguardando requisições:"));
 			}
 
 			saida.close();

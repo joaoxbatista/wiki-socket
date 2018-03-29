@@ -13,7 +13,7 @@ import java.lang.reflect.*;
 
 public class ReflectionConceptController {
 
-	public static void filter(String json_comand) {
+	public static String filter(String json_comand) {
 		// Instancia o conversor para JSON
 		JSONParser jsonParser = new JSONParser();
 		// Objeto JSON que armazena os comandos
@@ -27,7 +27,7 @@ public class ReflectionConceptController {
 
 		// String com a localisação do controller
 		String controller_class = "server.controllers.ConceptController";
-
+		String result = "";
 		try {
 
 			// Transforma a String em Objetos JSON
@@ -46,7 +46,7 @@ public class ReflectionConceptController {
 				case "all":
 					// Chama o método all do ConceptController
 					comand_method = tc.getClass().getMethod(comand_action);
-					comand_method.invoke(tc);
+					result = (String) comand_method.invoke(tc);
 					break;
 
 				case "find":
@@ -57,7 +57,7 @@ public class ReflectionConceptController {
 								.getConcept(json_comands);
 						comand_method = tc.getClass().getMethod(comand_action,
 								Concept.class);
-						comand_method.invoke(tc, concept_find);
+						result = (String) comand_method.invoke(tc, concept_find);
 					} else {
 						Logger.log("503: parametros inválidos,  verifique o JSON enviado!");
 					}
@@ -71,7 +71,7 @@ public class ReflectionConceptController {
 								.getConcept(json_comands);
 						comand_method = tc.getClass().getMethod(comand_action,
 								Concept.class);
-						comand_method.invoke(tc, concept_store);
+						result = (String) comand_method.invoke(tc, concept_store);
 					} else {
 						Logger.log("503: parametros inválidos,  verifique o JSON enviado!");
 					}
@@ -86,7 +86,7 @@ public class ReflectionConceptController {
 								.getConcept(json_comands);
 						comand_method = tc.getClass().getMethod(comand_action,
 								Concept.class);
-						comand_method.invoke(tc, concept_update);
+						result =  (String) comand_method.invoke(tc, concept_update);
 					} else {
 						Logger.log("503: parametros inválidos,  verifique o JSON enviado!");
 					}
@@ -100,7 +100,7 @@ public class ReflectionConceptController {
 								.getConcept(json_comands);
 						comand_method = tc.getClass().getMethod(comand_action,
 								Concept.class);
-						comand_method.invoke(tc, concept_remove.getCode());
+						result = (String) comand_method.invoke(tc, concept_remove);
 					} else {
 						Logger.log("503: parametros inválidos,  verifique o JSON enviado!");
 					}
@@ -119,7 +119,8 @@ public class ReflectionConceptController {
 			Logger.log("500: operação mal sucessedida, erro interno no servidor!");
 			e.printStackTrace();
 		}
-
+		
+		return result;
 	}
 
 	public static Concept getConcept(JSONObject json_comands) {

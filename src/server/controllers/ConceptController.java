@@ -6,34 +6,53 @@ import server.repository.ConceptRepositoy;
 
 public class ConceptController {
 
-	public void find(Concept concept) {
+	public String find(Concept concept) {
+		String result = "";
 		ConceptRepositoy tr = new ConceptRepositoy();
 		try {
-			Logger.log(tr.find(concept).toString());
+			result += tr.find(concept).toString();
+			Logger.log(result);
 		} catch (Exception e) {
 			
 		}
+		return result;
 	}
 
-	public void delete(Concept concept) {
+	public String delete(Concept concept) {
+		String result = "";
 		ConceptRepositoy tr = new ConceptRepositoy();
-		
 		try {
-			Logger.log(tr.remove(concept.getCode()).toString());
+			result += tr.remove(concept.getCode()).toString();
+			Logger.log(result);
 		} catch (Exception e) {
 			
 		}
-		
+		return result;
 	}
 
-	public void store(Concept concept) {
+	public String store(Concept concept) {
+		String result = "";
 		ConceptRepositoy tr = new ConceptRepositoy();
-		Logger.log(tr.store(concept).toString());
+		result += tr.store(concept).toString();
+		Logger.log(result);
+		return result;
 	}
-
-	public void all() {
+	
+	//TODO criar a função de update
+	public String update(Concept concept) {
+		String result = "";
 		ConceptRepositoy tr = new ConceptRepositoy();
-		Logger.log(tr.all().toString());
+		result += tr.update(concept).toString();
+		Logger.log(result);
+		return result;
+	}
+	
+	public String all() {
+		String result = "";
+		ConceptRepositoy tr = new ConceptRepositoy();
+		result += tr.all().toString();
+		Logger.log(result);
+		return result;
 	}
 
 }
