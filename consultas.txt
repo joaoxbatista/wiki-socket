@@ -1,18 +1,14 @@
-{"action":"get", "field":"title", "value":"Transformações Geométricas"}
-{"action":"get", "field":"title", "value":"Plantas Trópicais"}
-{"action":"get", "field":"title", "value":"Coordenadas Homogeneas"}
-
 Obter todos: 
 {"action":"all"}
 
 Obter um específico: 
-{"action": "find", "params": {"code": "COM15222863"}}
+{"action": "find", "params": {"code": "COM15223362"}}
 
 Concertar Remover: 
-{"action": "delete", "params": {"code": "COM15222688"}}
+{"action": "delete", "params": {"code": "COM15223347"}}
 
 Salvar: 
 {"action": "store", "params": {"name": "Alguma coisa aqui", "author": "alguma outra coisa", "area": "Computação", "description": "uma descrição aquo"}}
 
 Implementar Update
-{"action": "store", "params": {"code": "COM15222688", "name": "ALTERADO AQUI", "author": "alguma outra coisa", "area": "Computação", "description": "uma descrição aquo"}}
+{"action": "update", "params": {"code": "COM15223384", "name": "ALTERADO AQUI", "author": "alguma outra coisa", "area": "Computação", "description": "uma descrição aquo"}}

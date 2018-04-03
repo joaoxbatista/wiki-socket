@@ -11,23 +11,40 @@ public class ConceptController {
 		ConceptRepositoy tr = new ConceptRepositoy();
 		try {
 			result += tr.find(concept).toString();
-			Logger.log(result);
+				
 		} catch (Exception e) {
 			
 		}
-		return result;
+		
+		if(!result.equals("")){
+			Logger.log(result);
+			return "200 - " + result;
+		}
+		else
+		{
+			return "404: não foi possível encontrar nenhum conceito com estes parametros";
+		}
+		
 	}
 
 	public String delete(Concept concept) {
 		String result = "";
+		Logger.log("conceito informado para remoção" + concept.getCode());
 		ConceptRepositoy tr = new ConceptRepositoy();
 		try {
-			result += tr.remove(concept.getCode()).toString();
-			Logger.log(result);
+			result = tr.remove(concept.getCode()).toString();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
-		return result;
+		
+		if(!result.equals("")){
+			Logger.log(result);
+			return "200 - " + result;
+		}
+		else
+		{
+			return "404: não foi possível encontrar nenhum conceito com estes parametros";
+		}
 	}
 
 	public String store(Concept concept) {

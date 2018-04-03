@@ -104,6 +104,7 @@ public class ReflectionConceptController {
 					} else {
 						Logger.log("503: parametros inválidos,  verifique o JSON enviado!");
 					}
+					break;
 
 				default:
 					Logger.log("401: action inexistente, por favor verifique o JSON enviado!");

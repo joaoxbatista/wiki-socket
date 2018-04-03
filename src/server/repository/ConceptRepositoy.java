@@ -115,17 +115,21 @@ public class ConceptRepositoy {
 		Concept conceptresult = null;
 		try {
 			concept.setCode(code);
-			ObjectSet resultObejct = Database.getInstance().queryByExample(
+			ObjectSet<?> resultObejct = Database.getInstance().queryByExample(
 					concept);
-			conceptresult = (Concept) resultObejct.next();
-
-			if (conceptresult != null) {
+			if(!resultObejct.isEmpty())
+			{
+				conceptresult = (Concept) resultObejct.next();
+				Logger.log("Conceito encontrado para remção: "+ conceptresult);
 				Database.getInstance().delete(conceptresult);
 				Logger.log("200: operação realizada com sucesso!");
 			}
+			
+			
 		} catch (Exception e) {
 			Logger.log("500: operação mal sucessedida, erro interno no servidor!"
-					+ e.getMessage());
+					+ e.getMessage());;
+					e.printStackTrace();
 		}
 
 		Database.close();
